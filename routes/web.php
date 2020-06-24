@@ -13,6 +13,8 @@
 
 Route::get('/', 'PagesController@root');
 
+Route::resource('users','UsersController',['only'=>['show','edit','update']]);
+
 // 用户身份验证相关的路由
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
