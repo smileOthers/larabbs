@@ -17,14 +17,20 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
+    //话题广场
 	public function index(Request $request,Topic $topic)
 	{
+
 		$topics = $topic->withOrder($request->order)->with('user','category')->paginate(20);
 		return view('topics.index', compact('topics'));
 	}
 
-    public function show(Topic $topic)
+	//话题详情
+    public function show(Request $request,Topic $topic)
     {
+        if ( ! empty($topic->slug) && $topic->slug != $request->slug) {
+            return redirect($topic->link(), 301);
+        }
         return view('topics.show', compact('topic'));
     }
 
@@ -40,7 +46,7 @@ class TopicsController extends Controller
         $topic->fill($request->all());
         $topic->user_id = Auth::id();
         $topic->save();
-		return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
+		return redirect()->to($topic->link())->with('message', 'Created successfully.');
 	}
 
 	//话题修改页面
@@ -57,7 +63,7 @@ class TopicsController extends Controller
 		$this->authorize('update', $topic);
 		$topic->update($request->all());
 
-		return redirect()->route('topics.show', $topic->id)->with('message', '修改成功');
+		return redirect()->to($topic->link())->with('message', '修改成功');
 	}
 
 	//话题删除
