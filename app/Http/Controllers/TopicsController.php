@@ -60,12 +60,13 @@ class TopicsController extends Controller
 		return redirect()->route('topics.show', $topic->id)->with('message', '修改成功');
 	}
 
+	//话题删除
 	public function destroy(Topic $topic)
 	{
 		$this->authorize('destroy', $topic);
 		$topic->delete();
 
-		return redirect()->route('topics.index')->with('message', 'Deleted successfully.');
+		return redirect()->route('topics.index')->with('message', '删除成功');
 	}
 
 	//图片上传
