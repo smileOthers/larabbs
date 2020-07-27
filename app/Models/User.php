@@ -10,13 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements MustVerifyEmailContract
 {
-    use MustVerifyEmailTrait;
-    //把trait中的notify重命名为laravelNotify
-    use Notifiable {
-        notify as protected laravelNotify;
-    }
-    //然后重新 notify
-    public function notify($instance)
+    use Notifiable,MustVerifyEmailTrait;
+
+
+    public function topicNotify($instance)
     {
         if($this->id == Auth::id()){
             return false;
@@ -24,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
         if(method_exists($instance,'toDatabase')){
             $this->increment('notification_count');
         }
-        $this->laravelNotify($instance);
+        $this->notify($instance);
     }
 
     /**
