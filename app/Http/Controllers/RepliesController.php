@@ -23,4 +23,11 @@ class RepliesController extends Controller
 
         return redirect()->to($reply->topic->link())->with('success','评论成功');
     }
+
+    //删除回复
+    public function destroy(Reply $reply){
+        $this->authorize('destroy', $reply);
+        $reply->delete();
+        return redirect()->to($reply->topic->link())->with('success','评论删除成功');
+    }
 }
