@@ -26,6 +26,30 @@ class User extends Authenticatable implements MustVerifyEmailContract
     }
 
     /*
+     * 给模型赋值时会调用
+     * $user->password = '22222';
+     * 最后赋值的就是该函数的返回值
+     */
+    public function setPasswordAttribute($value){
+        if(strlen($value) != 60){
+            $value = bcrypt($value);
+        }
+        $this->attributes['password'] = $value;
+    }
+
+    public function setAvatarAttribute($path)
+    {
+        // 如果不是 `http` 子串开头，那就是从后台上传的，需要补全 URL
+        if ( ! \Str::startsWith($path, 'http')) {
+
+            // 拼接完整的 URL
+            $path = config('app.url') . "/uploads/images/avatars/$path";
+        }
+
+        $this->attributes['avatar'] = $path;
+    }
+
+    /*
      * 清楚未读
      */
     public function markAsRead()
