@@ -60,7 +60,7 @@ return array(
      */
     'permission' => function () {
         // 只要是能管理内容的用户，就允许访问后台
-        return Auth::check() && Auth::user()->can('manage_contents');
+        return Auth::check() && Auth::user()->can('manage_user');
     },
 
     /*
@@ -81,7 +81,7 @@ return array(
     'back_to_site_path' => '/',
 
     // 当选项 `permission` 权限检测不通过时，会重定向用户到此处设置的路径
-    'login_path' => 'login',
+    'login_path' => 'permission-denied',
 
     // 允许在登录成功后使用 Session::get('redirect') 将用户重定向到原本想要访问的后台页面
     'login_redirect_key' => 'redirect',
