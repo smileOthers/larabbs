@@ -13,7 +13,6 @@
                     <div class="alert alert-danger text-center">
                         请登录以后再操作
                     </div>
-
                     <a class="btn btn-lg btn-primary btn-block" href="{{ route('login') }}">
                         <i class="fas fa-sign-in-alt"></i>
                         登 录

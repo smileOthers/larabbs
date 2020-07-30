@@ -12,6 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmailContract
 {
     use Notifiable,MustVerifyEmailTrait,HasRoles;
+    use Traits\ActiveUserHelper;
 
 
     public function topicNotify($instance)
