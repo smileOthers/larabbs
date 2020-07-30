@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Link;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,14 +20,16 @@ class TopicsController extends Controller
     }
 
     //话题广场
-	public function index(Request $request,Topic $topic,User $user)
+	public function index(Request $request,Topic $topic,User $user,Link $link)
 	{
 
 		$topics = $topic->withOrder($request->order)->with('user','category')->paginate(20);
 
 		$active_users = $user->getActiveUsers();
 
-		return view('topics.index', compact('topics','active_users'));
+        $links = $link->getAllCached();
+
+		return view('topics.index', compact('topics','active_users','links'));
 	}
 
 	//话题详情
