@@ -13,6 +13,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
 {
     use Notifiable,MustVerifyEmailTrait,HasRoles;
     use Traits\ActiveUserHelper;
+    use Traits\LastActivedAtHelper;
 
 
     public function topicNotify($instance)
